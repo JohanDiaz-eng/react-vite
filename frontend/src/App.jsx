@@ -1,11 +1,17 @@
-import "./App.css"
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from './components/Pages/Home.jsx'
+import Login from './components/Auth/Login.jsx'
+import Register from './components/Auth/Registers.jsx'
 
 function App() {
   return (
-    <div className="min-h-screen bg-orange-700 flex items-center justify-center">
-    <h1 className="text-4xl font-bold text-blue-950">Hola mundo</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
+export default App;
