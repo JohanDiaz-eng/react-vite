@@ -22,6 +22,14 @@ export default function Register() {
         terms: false
     });
 
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value
+        });
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,7 +48,7 @@ export default function Register() {
             setLoading(true);
 
             const response = await axios.post(
-                "http://localhost:8081/api/register",
+                "http://localhost:8081/api/user/register",
                 {
                     nombre: formData.nombre,
                     telefono: formData.telefono,
@@ -50,7 +58,7 @@ export default function Register() {
             );
 
             setMessage({
-                type: "sucess",
+                type: "success",
                 text: "Cuenta creada exitosamente"
             });
 
@@ -180,7 +188,8 @@ export default function Register() {
     
                     {/* Button */}
                     <button
-                    type="submit"
+                    type="button"
+                    onClick={() => navigate("/home")}
                     disabled={loading}
                     className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold flex justify-center"
                     >

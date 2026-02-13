@@ -20,10 +20,22 @@ export const registrarUser= async (req, res)=> {
         const hashedPassword = await bcrypt.hash(password, saltrounds);
 
         //crear el nuevo usuario
-        const newuser = new User ({nombre, telefono, email, password:hashedPassword});
+        const newuser = new User ({
+            nombre, 
+            telefono, 
+            email, 
+            password:hashedPassword,
+            rol: "user"
+        });
+
         await newuser.save();
+
         res.status(201).json({message: "usuario creado exitosamente"});
+
     } catch (error) {
-        res.status(500).json({message: "error al crear el usuario",error:error.message});
-    };
-}
+        res.status(500).json({
+            message: "error al crear el usuario",
+            error:error.message
+        });
+    }
+};

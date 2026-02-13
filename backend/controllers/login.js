@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import User from "../models/user.js";
+import jwt from "jsonwebtoken";
 import user from "../models/user.js";
 
 export const loginUsuario = async (req, res) => {
@@ -22,17 +22,29 @@ export const loginUsuario = async (req, res) => {
             return res.status(401).json({message:"contraseña incorrecta"});
         }
 
+        // generamos el token JWT con el rol incluido
+        const token = jwt.sign(
+            {
+                id: usuario._id,
+                rol: usuario.rol,
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "2h" }
+        );
+
         // validamos el inicio de sesion exitoso
         res.status(200).json({message:"inicio de sesion correcto",
+            token,
             usuario:{
                 id: usuario._id,
                 nombre: usuario.nombre,
                 telefono: usuario.telefono,
-                email: usuario.email
-            }
+                email: usuario.email,
+                rol: usuario.rol,
+            },
         });
 
     } catch (error) {
         res.status(500).json({message:"error al iniciar sesion", error:error.message});
     }
-}
+};

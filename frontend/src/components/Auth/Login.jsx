@@ -31,7 +31,7 @@ export default function Login (){
             console.log("Usuario:", data.usuario);
             // navegar despues de 1 segundo
             setTimeout(() => {
-                navigate('/Home')
+                navigate('/')
             },1000);
         } catch (error) {
             console.error('Error:', error)
@@ -217,7 +217,7 @@ export default function Login (){
                         <p className="text-gray-600">
                             ¿No tienes cuenta?
                             <button 
-                                type="button" onClick={() => navigate('/register')}
+                                type="button" onClick={() => navigate('/Register')}
                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors ml-1" >
                            
                                 Regístrate aquí
