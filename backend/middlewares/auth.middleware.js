@@ -26,7 +26,7 @@ export const verificarToken = async (req, res, next) => {
         req.usuario = usuario;
         next();
         
-      } catch (error) {
+    } catch (error) {
         if (error.name === "TokenExpiredError") {
             return res.status(401).json({ message: "token expirado, inicia sesion nuevamente "});
         }

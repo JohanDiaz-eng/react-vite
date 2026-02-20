@@ -10,6 +10,8 @@ import pedidoRoute from './routes/pedido.js';
 import adminRoutes from "./routes/admin.js";
 const app =express();
 
+app.use(express.json());
+
 // habilitar todas las rutas //
 
 app.use(cors({

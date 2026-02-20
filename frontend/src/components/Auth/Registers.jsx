@@ -189,7 +189,7 @@ export default function Register() {
                     {/* Button */}
                     <button
                     type="button"
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/")}
                     disabled={loading}
                     className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold flex justify-center"
                     >

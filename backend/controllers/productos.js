@@ -40,8 +40,8 @@ export const obtenerProductos=async  (req, res) => {
 export const actualizarProducto = async (req, res) => {
     try {
         const {id} = req.params;
-        const {productId, Nombre, Descripcion, Precio, Image} = req.body;
-        const productoActualizado = await Productos .findByIdAndUpdate(id, {productId, Nombre, Descripcion, Precio, Image}, {new: true});
+        const { Nombre, Descripcion, Precio, Image} = req.body;
+        const productoActualizado = await Productos .findByIdAndUpdate(id, { Nombre, Descripcion, Precio, Image}, {new: true});
         if (!productoActualizado) {
             return res.status(404).json({mesagge: "Producto no encontrado"});
         }
@@ -54,4 +54,16 @@ export const actualizarProducto = async (req, res) => {
 
 // eliminar producto
 
-
+export const eliminarProducto = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const productoEliminado = await Productos.findByIdAndDelete(id);
+        if (!productoEliminado){
+            return res.status(404).json({mesagge: "producto no encontrado"});
+        }
+        res.json({mesagge: "Producto eliminado exitosamente"});
+    } catch (error) {
+        console.error("Error al eliminar el producto", error);
+        res.status(500).json({mesagge: "Error al eliminar el producto"});
+    };
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../context/AuthContext";
 import { User, Mail, Lock, Eye, EyeOff, LogIn, Loader2, Shield } from "lucide-react";
 import axios from "axios";
 
@@ -11,51 +12,26 @@ export default function Login (){
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({type: '', text: ''});
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
         setMessage({type: '', text: ''});
         try {
-            const response = await axios.post('http://localhost:8081/api/login',{
-                email: email,
-                password: password
-            });
+            await login(email, password);
 
-            // axios ya parsea el json automaticamente
-            const data = response.data;
             setMessage({
                 type: 'success',
-                text: `¡Bienvenido ${data.usuario.nombre}!`
+                text: '¡Inicio de sesion exitoso'
             });
-            console.log("Usuario:", data.usuario);
-            // navegar despues de 1 segundo
-            setTimeout(() => {
-                navigate('/')
-            },1000);
+            
         } catch (error) {
-            console.error('Error:', error)
-
-            //manejo de errores con axios
-            if (error.response){
-                //el servidor respondio con un codigo de error
-                if(error.response.status === 404){
-                    setMessage({type: 'error', text: 'Usuario no encontrado'});
-                } else if (error.response.status === 401){
-                    setMessage({type: 'error', text: 'Contraseña incorrecta'});
-                } else {
-                    setMessage({type: 'error', text: error.response.data.message || 'Error al iniciar sesion'                  
-                    });
-                }
-            } else if (error.request){
-                //la peticion se hizo pero no hubo respuesta
-                setMessage({type: 'error', text: 'No se pudo conectar con el servidor'
-                });
-            } else {
-                //error al configurar la peticion
-                setMessage({type: 'error', text: 'Error al procesar la solicitud'
-                });
-            }
+            console.error('Error:', error);
+            setMessage({
+                type: 'error',
+                text: error.message || 'Error al iniciar sesion'
+            });
         } finally {
             setLoading(false);
         }
@@ -217,7 +193,7 @@ export default function Login (){
                         <p className="text-gray-600">
                             ¿No tienes cuenta?
                             <button 
-                                type="button" onClick={() => navigate('/Register')}
+                                type="button" onClick={() => navigate('/register')}
                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors ml-1" >
                            
                                 Regístrate aquí
