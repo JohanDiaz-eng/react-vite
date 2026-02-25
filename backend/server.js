@@ -32,4 +32,4 @@ app.use("/api/recuperar", RecuperarPassword);
 app.use("/api/pedido", pedidoRoute);
 app.use("/api/admin", adminRoutes);
 
-app.listen(8081,()=>console.log('servidor corriendo en https://tiendavirtual-1-8tuy.onrender.com'));
+app.listen(8081,()=>console.log('servidor corriendo en https://localhost:8081'));
