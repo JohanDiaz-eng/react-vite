@@ -28,7 +28,7 @@ function Newsletter() {
   };
 
   return (
-    <section className="py-16 bg-linear-to-r from-blue-600 to-purple-600">
+    <section className="py-16 bg-linear-to-r from-blue-600 to-purple-600 ">
       <div className="container mx-auto px-4 text-center text-white">
         <h2 className="text-3xl font-bold mb-4">Mantente al día con TechStore Pro</h2>
         <p className="text-lg mb-8 opacity-90">

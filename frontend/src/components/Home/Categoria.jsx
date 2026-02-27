@@ -1,5 +1,5 @@
 function Categories() {
-    const categories = [
+    const Categories = [
         {
             id: 'laptops',
             emoji: '💻',
@@ -27,7 +27,7 @@ function Categories() {
                     <p className="text-gray-600 text-lg">Descubre nuestra amplia gama de productos tecnologicos</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {categories.map((category)=>(
+                    {Categories.map((category)=>(
                         <div key={category.id}
                         onClick={() => handleCategoryClick(category.id)}
                         className="bg-white p-8 rounde-xl shadow-lg text-center hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 cursor-pointer"

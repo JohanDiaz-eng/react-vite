@@ -45,17 +45,17 @@ export default function Productos() {
 
   // Filtros
   const productosFiltrados = productos
-    .filter((p) => p.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+    .filter((p) => p.Nombre.toLowerCase().includes(busqueda.toLowerCase()))
     .filter((p) => {
-      if (rango === "menos500") return p.precio < 500000;
-      if (rango === "500a1000") return p.precio >= 500000 && p.precio <= 1000000;
-      if (rango === "mas1000") return p.precio > 1000000;
+      if (rango === "menos500") return p.Precio < 500000;
+      if (rango === "500a1000") return p.Precio >= 500000 && p.Precio <= 1000000;
+      if (rango === "mas1000") return p.Precio > 1000000;
       return true;
     })
     .sort((a, b) => {
-      if (ordenar === "precio_asc") return a.precio - b.precio;
-      if (ordenar === "precio_desc") return b.precio - a.precio;
-      if (ordenar === "nombre") return a.nombre.localeCompare(b.nombre);
+      if (ordenar === "precio_asc") return a.Precio - b.Precio;
+      if (ordenar === "precio_desc") return b.Precio - a.Precio;
+      if (ordenar === "nombre") return a.Nombre.localeCompare(b.Nombre);
       return 0;
     });
 
@@ -65,7 +65,7 @@ export default function Productos() {
   const productosPagina = productosFiltrados.slice(inicio, inicio + productosPorPagina);
 
   const handleAddToCart = (product) => {
-    alert(`${product.nombre} agregado al carrito`);
+    alert(`${product.Nombre} agregado al carrito`);
   };
 
   return (
@@ -160,11 +160,11 @@ export default function Productos() {
                   className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg 
                              transition-all duration-200 flex flex-col group">
                   <div className="h-52 bg-gray-100 overflow-hidden">
-                    {prod.image ? (
+                    {prod.Image ? (
                       <img
-                        src={prod.image}
-                        alt={prod.nombre}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        src={prod.Image}
+                        alt={prod.Nombre}
+                        className="h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         onError={(e) => { e.currentTarget.style.display = "none"; }}
                       />
                     ) : (
@@ -172,11 +172,11 @@ export default function Productos() {
                     )}
                   </div>
                   <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-bold text-gray-800 mb-1 line-clamp-1">{prod.nombre}</h3>
-                    <p className="text-gray-400 text-xs mb-3 line-clamp-2 flex-1">{prod.descripcion}</p>
+                    <h3 className="font-bold text-gray-800 mb-1 line-clamp-1">{prod.Nombre}</h3>
+                    <p className="text-gray-400 text-xs mb-3 line-clamp-2 flex-1">{prod.Descripcion}</p>
                     <div className="flex items-center justify-between mt-auto">
                       <span className="text-blue-600 font-bold text-lg">
-                        {formatPrice(prod.precio)}
+                        {formatPrice(prod.Precio)}
                       </span>
                       <button
                         onClick={() => handleAddToCart(prod)}

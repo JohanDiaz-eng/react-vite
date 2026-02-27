@@ -15,7 +15,7 @@ function Hero(){
                     >
                         Ver Productos
                     </a>
-                    <button className="borde-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300">
+                    <button className="borde-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300 shadow-2xl hover:shadow-white border-2">
                         Ofertas Especiales
                     </button>
                 </div>

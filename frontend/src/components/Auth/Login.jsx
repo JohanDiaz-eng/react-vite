@@ -88,7 +88,6 @@ export default function Login (){
                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 pr-12 text-gray-900" 
                                     required
                                     />
-                               
                                 
                                 <button type="button"  onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
                                     {showPassword ? (
@@ -111,7 +110,7 @@ export default function Login (){
                                 
                                 <span className="ml-2 text-sm text-gray-700">Recordarme</span>
                             </label>
-                            <button type="button" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                            <button type="button" onClick={() => navigate('/forgot-password')} className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors cursor-pointer">
                                 ¿Olvidaste tu contraseña?
                             </button>
                         </div>
@@ -142,7 +141,7 @@ export default function Login (){
                         <button 
                             onClick={handleSubmit}
                             disabled={loading}
-                            className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center">
+                            className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center cursor-pointer">
                         
                             {loading ? (
                                 <>
@@ -195,7 +194,7 @@ export default function Login (){
                             <button 
                                 type="button" onClick={() => navigate('/register')}
                                 className="text-blue-600 hover:text-blue-700 font-semibold transition-colors ml-1" >
-                           
+
                                 Regístrate aquí
                             </button>
                         </p>

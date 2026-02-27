@@ -1,9 +1,9 @@
-import Navbar from '../Layout/Navbar';
-import Hero from '../Home/Hero';
-import Categoria from '../Home/Categoria';
-import Featureproducts from '../Home/Featureproducts';
-import Newsletter from '../Home/Newsletter';
-import Footer from '../Layout/Footer';
+import Navbar from '../Layout/Navbar.jsx'
+import Hero from '../Home/Hero.jsx'
+import Categoria from '../Home/Categoria.jsx'
+import Featureproducts from '../Home/Featureproducts.jsx'
+import Newsletter from '../Home/Newsletter.jsx'
+import Footer from '../Layout/Footer.jsx'
 
 export default function Home() {
 

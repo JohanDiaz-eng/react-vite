@@ -145,7 +145,7 @@ export default function AdminPanel() {
       const res = await fetch(url, {
         method, headers,
         // ✅ minúscula
-        body: JSON.stringify({ ...form, precio: parseFloat(form.Precio) }),
+        body: JSON.stringify({ ...form, Precio: parseFloat(form.Precio) }),
       });
       if (!res.ok) { const err = await res.json(); throw new Error(err.message); }
       mostrarMensaje("success", editando ? "Producto actualizado" : "Producto creado");
@@ -305,7 +305,7 @@ export default function AdminPanel() {
                           <td className="py-3.5 pl-2">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                                {prod.image
+                                {prod.Image
                                   ? <img src={prod.Image} alt={prod.Nombre}
                                     className="w-full h-full object-cover"
                                     onError={e => e.currentTarget.style.display = "none"} />

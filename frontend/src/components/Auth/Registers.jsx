@@ -3,7 +3,6 @@ import { Eye, EyeOff, UserPlus, Shield, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 export default function Register() {
     const navigate = useNavigate();
 
@@ -21,14 +20,13 @@ export default function Register() {
         confirmPassword: "",
         terms: false
     });
-
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === "checkbox" ? checked : value
-        });
-    };
+    const { name, value, type, checked } = e.target;
+    setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value
+    });
+};
 
 
     const handleSubmit = async (e) => {
@@ -58,7 +56,7 @@ export default function Register() {
             );
 
             setMessage({
-                type: "success",
+                type: "sucess",
                 text: "Cuenta creada exitosamente"
             });
 
@@ -188,8 +186,7 @@ export default function Register() {
     
                     {/* Button */}
                     <button
-                    type="button"
-                    onClick={() => navigate("/")}
+                    type="submit"
                     disabled={loading}
                     className="w-full bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold flex justify-center"
                     >

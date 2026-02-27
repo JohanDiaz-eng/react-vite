@@ -1,12 +1,15 @@
-// src/context/AuthContext.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // importar AXIOS
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [usuario, setUsuario] = useState(null);
+    // ✅ Recupera la sesión guardada al iniciar
+    const [usuario, setUsuario] = useState(() => {
+        const guardado = localStorage.getItem("usuario");
+        return guardado ? JSON.parse(guardado) : null;
+    });
     const navigate = useNavigate();
 
     const login = async (email, password) => {
@@ -15,16 +18,17 @@ export const AuthProvider = ({ children }) => {
                 email: email,
                 password: password,
             });
+            const data = response.data;
 
-            const data = response.data;  //axiios ya parsea el JSON automaticamente
-
-            //guardamos el usuario y token en memoria
-            setUsuario({
+            const usuarioData = {
                 ...data.usuario,
                 token: data.token,
-            });
+            };
 
-            //redirigimos segeun el rol
+            // ✅ Guarda en memoria y en localStorage
+            setUsuario(usuarioData);
+            localStorage.setItem("usuario", JSON.stringify(usuarioData));
+
             if (data.usuario.rol === "admin") {
                 navigate("/admin");
             } else {
@@ -32,19 +36,19 @@ export const AuthProvider = ({ children }) => {
             }
 
         } catch (error) {
-            //manejo de errores con axio
             if (error.response) {
-                throw new Error(error.response.data.message || "Error al iniciar sesion");
+                throw new Error(error.response.data.message || 'Error al iniciar sesion');
             } else if (error.request) {
-                throw new Error("No se pudo conectar con el servidor");
+                throw new Error('No se pudo conectar con el servidor');
             } else {
-                throw new Error("Error al procesar la solicitud");
+                throw new Error('Error al procesar la solicitud');
             }
         }
     };
 
     const logout = () => {
         setUsuario(null);
+        localStorage.removeItem("usuario"); // ✅ Limpia localStorage al cerrar sesión
         navigate("/login");
     };
 
@@ -61,4 +65,4 @@ export const useAuth = () => {
         throw new Error("useAuth debe usarse dentro de un AuthProvider");
     }
     return context;
-};
+}

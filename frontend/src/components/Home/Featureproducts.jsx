@@ -1,52 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
+
+const API_URL = "http://localhost:8081/api/productos";
 
 function FeaturedProducts() {
-  const [cart, setCart] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const products = [
-    {
-      id: 'macbook-pro-m3',
-      name: 'MacBook Pro M3',
-      description: 'Potencia profesional para creativos y desarrolladores',
-      image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600',
-      price: 2499000,
-      originalPrice: 2899000,
-      discount: '-15%',
-      rating: 5,
-      reviews: 128,
-      badge: 'discount'
-    },
-    {
-      id: 'iphone-15-pro',
-      name: 'iPhone 15 Pro',
-      description: 'El smartphone más avanzado con chip A17 Pro',
-      image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600',
-      price: 1199000,
-      originalPrice: null,
-      discount: null,
-      rating: 5,
-      reviews: 89,
-      badge: 'new'
-    },
-    {
-      id: 'rtx-4070-super',
-      name: 'RTX 4070 Super',
-      description: 'Tarjeta gráfica de nueva generación para gaming',
-      image: 'https://images.unsplash.com/photo-1580894894513-541e068a3e2b?w=600',
-      price: 599000,
-      originalPrice: 749000,
-      discount: '-20%',
-      rating: 5,
-      reviews: 156,
-      badge: 'discount'
-    }
-  ];
+  useEffect(() => {
+    const fetchProductos = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("usuario"))?.token;
+        const res = await fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        setProductos(Array.isArray(data) ? data : []);
+      } catch {
+        console.error("Error al cargar productos");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProductos();
+  }, []);
 
   const handleAddToCart = (product) => {
-    setCart([...cart, product]);
-    console.log(`Producto agregado: ${product.name}`);
-    // Aquí puedes agregar lógica para actualizar el carrito global
-    alert(`${product.name} agregado al carrito`);
+    alert(`${product.Nombre} agregado al carrito`);
   };
 
   const formatPrice = (price) => {
@@ -65,83 +50,82 @@ function FeaturedProducts() {
           <p className="text-gray-600 text-lg">Los productos más populares de nuestra tienda</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="border rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1"
-            >
-              {/* Imagen del producto */}
-              <div className="bg-linear-to-br from-gray-100 to-gray-200 h-64 flex items-center justify-center relative overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-                {/* Badge */}
-                {product.badge === 'discount' && (
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-                    {product.discount}
-                  </div>
-                )}
-                {product.badge === 'new' && (
-                  <div className="absolute top-4 right-4 bg-green-500 text-white px-2 py-1 rounded-full text-sm font-bold">
-                    NUEVO
-                  </div>
-                )}
+        {/* Loading skeleton */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="border rounded-xl overflow-hidden shadow-lg animate-pulse">
+                <div className="h-64 bg-gray-200" />
+                <div className="p-6 space-y-3">
+                  <div className="h-5 bg-gray-200 rounded w-3/4" />
+                  <div className="h-4 bg-gray-100 rounded w-full" />
+                  <div className="h-4 bg-gray-100 rounded w-1/2" />
+                </div>
               </div>
-
-              {/* Información del producto */}
-              <div className="p-6">
-                <h3 className="font-bold text-xl mb-2 text-gray-800">
-                  {product.name}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  {product.description}
-                </p>
-
-                {/* Rating */}
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400">
-                    {'⭐'.repeat(product.rating)}
-                  </div>
-                  <span className="text-gray-500 text-sm ml-2">
-                    ({product.reviews} reseñas)
-                  </span>
+            ))}
+          </div>
+        ) : productos.length === 0 ? (
+          <div className="text-center py-16 text-gray-400">
+            <p className="text-5xl mb-4">📦</p>
+            <p className="text-lg font-semibold">No hay productos disponibles</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {productos.map((product) => (
+              <div
+                key={product._id}
+                className="border rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1"
+              >
+                {/* Imagen */}
+                <div className="bg-linear-to-br from-gray-100 to-gray-200 h-64 flex items-center justify-center relative overflow-hidden">
+                  {product.Image ? (
+                    <img
+                      src={product.Image}
+                      alt={product.Nombre}
+                      className="h-full object-cover"
+                      onError={(e) => { e.currentTarget.style.display = "none"; }}
+                    />
+                  ) : (
+                    <div className="text-6xl">📦</div>
+                  )}
                 </div>
 
-                {/* Precio y botón */}
-                <div className="flex justify-between items-center">
-                  <div>
-                    {product.originalPrice && (
-                      <span className="text-gray-400 line-through text-sm">
-                        {formatPrice(product.originalPrice)}
-                      </span>
-                    )}
-                    <span className="text-3xl font-bold text-blue-600 ml-2">
-                      {formatPrice(product.price)}
+                {/* Info */}
+                <div className="p-6">
+                  <h3 className="font-bold text-xl mb-2 text-gray-800">
+                    {product.Nombre}
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    {product.Descripcion}
+                  </p>
+
+                  {/* Precio y botón */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-3xl font-bold text-blue-600">
+                      {formatPrice(product.Precio)}
                     </span>
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 
+                                 hover:to-purple-700 text-white px-6 py-2 rounded-lg transition-all 
+                                 duration-200 transform hover:scale-105"
+                    >
+                      Comprar
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-lg transition-all duration-200 transform hover:scale-105"
-                  >
-                    Comprar
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {/* Botón ver más productos */}
+        {/* Ver todos */}
         <div className="text-center mt-12">
-          <a
-            href="#productos"
-            className="inline-block bg-gray-800 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-700 transition duration-300 transform hover:scale-105"
-          >
+          <Link to="/productos"
+            className="inline-block bg-gray-800 text-white px-8 py-4 rounded-lg text-lg 
+            font-semibold hover:bg-gray-700 transition duration-300 transform hover:scale-105">
             Ver Todos los Productos
-          </a>
+          </Link>
         </div>
       </div>
     </section>

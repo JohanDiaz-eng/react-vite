@@ -4,37 +4,45 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import Login from './components/Auth/Login';
 import Register from "./components/Auth/Registers";
 import AdminPanel from "./components/Pages/Admin";
+import Contacto from "./components/Pages/Contacto.jsx"
 import Home from './components/Pages/Home';
-import Layout from "./components/Layout";
+import Productos from './components/Pages/Producto.jsx';
+import Layout from "./components/Layout/Layout.jsx";
+import Perfil from "./components/Pages/Perfil.jsx";
+import ForgotPassword from './components/Pages/ForgotPassword.jsx';
+import VerifyCode from './components/Pages/VerifyCode.jsx';
 
 
 function App() {
   return (
-    <BrowserRouter>
-    <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
+  <BrowserRouter>
+  <AuthProvider>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/productos" element={<Productos />} />
+      <Route path="/contacto" element={<Contacto />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/verify-code" element={<VerifyCode />} />
 
-        <Route
-        path='/productos'
-        element={
-          <PrivateRoute rolRequerido="user">
-            <Layout />
-            <div>Pagina de Productos</div>
-          </PrivateRoute>
+      <Route
+      path='/admin'
+      element={
+      <PrivateRoute rolRequerido="admin">
+        <AdminPanel /> {/* usa adminPanel*/}
+        </PrivateRoute>
         }
-        />
+      />
 
-        <Route
-        path='/admin'
-        element={
-          <PrivateRoute rolRequerido="admin">
-            <AdminPanel /> {/* usa adminPanel*/}
-          </PrivateRoute>
-        }
-        />
+      <Route
+      path='/perfil'
+      element={
+      <PrivateRoute>
+        <Perfil />
+      </PrivateRoute>
+      }
+      />
 
         <Route path='*' element={<Navigate to="/" replace />} />
       </Routes>
