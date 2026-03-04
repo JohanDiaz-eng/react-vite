@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../Layout/Navbar';
 import Footer from '../Layout/Footer';
+import { useCart } from '../../context/CartContext.jsx';
 
 const API_URL = "http://localhost:8081/api/productos";
 
@@ -12,6 +13,8 @@ export default function Productos() {
   const [rango, setRango] = useState("cualquiera");
   const [paginaActual, setPaginaActual] = useState(1);
   const productosPorPagina = 8;
+
+  const { agregarAlCarrito } = useCart();
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -65,8 +68,17 @@ export default function Productos() {
   const productosPagina = productosFiltrados.slice(inicio, inicio + productosPorPagina);
 
   const handleAddToCart = (product) => {
-    alert(`${product.Nombre} agregado al carrito`);
-  };
+    console.log("Producto que se va a agregar:", product);
+    console.log("_id del producto:", product._id);
+    
+    agregarAlCarrito({
+        productId: product._id,
+        Nombre: product.Nombre,
+        Descripcion: product.Descripcion,
+        Precio: product.Precio,
+        Image: product.Image,
+    });
+};
 
   return (
     <>
@@ -182,8 +194,7 @@ export default function Productos() {
                         onClick={() => handleAddToCart(prod)}
                         className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 
                                    hover:to-purple-700 text-white px-4 py-1.5 rounded-xl text-xs 
-                                   font-semibold transition-all duration-200 transform hover:scale-105"
-                      >
+                                font-semibold transition-all duration-200 transform hover:scale-105">
                         Comprar
                       </button>
                     </div>

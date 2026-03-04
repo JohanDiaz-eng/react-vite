@@ -2,15 +2,15 @@ import { useState, useRef, useEffect } from "react";
 import { ShoppingCart, User, Menu, X, LogOut, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext.jsx";
 
 function Navbar() {
     const { usuario, logout } = useAuth();
-    const [cartCount, setCartCount] = useState(0);
+    const { cantidadTotal } = useCart();
     const [mobileMenuOpen, setMobilMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Cierra el dropdown si se hace click fuera
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -66,17 +66,17 @@ function Navbar() {
                     {/* Iconos derecha */}
                     <div className="flex items-center space-x-2">
 
-                        {/* Carrito */}
-                        <a href="#" className="relative group p-2.5 hover:bg-blue-50 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        {/* Carrito — ✅ Link en vez de <a href> para no recargar la página */}
+                        <Link to="/carrito" className="relative group p-2.5 hover:bg-blue-50 rounded-xl transition-all duration-300 transform hover:scale-105">
                             <ShoppingCart className="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-all duration-300 group-hover:rotate-3" />
-                            {cartCount > 0 && (
+                            {cantidadTotal > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-linear-to-r from-red-500 via-pink-500 to-red-600 text-white text-xs font-bold rounded-full min-w-5 h-5 flex items-center justify-center px-1 shadow-lg border-2 border-white animate-pulse">
-                                    {cartCount}
+                                    {cantidadTotal}
                                 </span>
                             )}
-                        </a>
+                        </Link>
 
-                        {/* Usuario: si está logueado muestra avatar + dropdown, si no muestra ícono de login */}
+                        {/* Usuario */}
                         {usuario ? (
                             <div className="relative" ref={dropdownRef}>
                                 <button
@@ -92,7 +92,6 @@ function Navbar() {
                                     <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
                                 </button>
 
-                                {/* Dropdown */}
                                 {dropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                                         <div className="px-4 py-2 border-b border-gray-100 mb-1">

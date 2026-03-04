@@ -76,6 +76,7 @@ export default function Perfil() {
     try {
       await axios.delete(`http://localhost:8081/api/perfil/eliminar`, {
         headers: { Authorization: `Bearer ${usuario.token}` },
+        data: { email: usuario.email },
       });
       logout();
     } catch (error) {

@@ -98,13 +98,14 @@ export default function Register() {
                 <form onSubmit={handleSubmit} className="space-y-6">
     
                     {/* Nombre / Apellido */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
                     <input
                         name="nombre"
                         value={formData.nombre}
                         onChange={handleChange}
                         placeholder="Nombre"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                        className="w-147 px-4 py-3 border border-gray-300 rounded-lg"
+                        required
                     />
                     </div>
     
@@ -115,6 +116,7 @@ export default function Register() {
                     onChange={handleChange}
                     placeholder="Correo electrónico"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                    required
                     />
     
                     {/* Teléfono */}
@@ -124,6 +126,7 @@ export default function Register() {
                     onChange={handleChange}
                     placeholder="Teléfono"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                    required
                     />
     
                     {/* Password */}
@@ -135,6 +138,7 @@ export default function Register() {
                         onChange={handleChange}
                         placeholder="Contraseña"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg pr-12"
+                        required
                     />
                     <button
                         type="button"
@@ -154,6 +158,7 @@ export default function Register() {
                         onChange={handleChange}
                         placeholder="Confirmar contraseña"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg pr-12"
+                        required
                     />
                     <button
                         type="button"
